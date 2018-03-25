@@ -5,8 +5,7 @@ import * as Cors from 'restify-cors-middleware';
 import * as moment from 'moment-timezone';
 import config from './config/config';
 import { logger } from './service/logger';
-import { Database } from './model/Database';
-import authFilter from './filter/UserAuthFilter'
+import Database from './service/Database';
 
 export const api = restify.createServer({ name: config.name});
 
@@ -28,7 +27,7 @@ api.use(restify.plugins.acceptParser(api.acceptable));
 api.use(restify.plugins.bodyParser());
 api.use(restify.plugins.queryParser());
 api.use(restify.plugins.fullResponse());
-api.use(authFilter.authorizeUser);
+// api.use(authFilter.authorizeUser);
 
 fs.readdirSync(__dirname + '/route').forEach((routeFile: string): void => {
   if (routeFile.substr(-3) === '.js') {

@@ -8,6 +8,7 @@
     "start": "node dist/app.js"
   },
   "dependencies": {
+    "@octokit/rest": "^15.2.5",
     "@types/body-parser": "^1.16.4",
     "@types/chai": "^3.4.34",
     "@types/debug": "^0.0.29",
@@ -32,6 +33,7 @@
     "moment-timezone": "^0.5.14",
     "mongoose": "^5.0.11",
     "q": "^1.5.1",
+    "reflect-metadata": "^0.1.12",
     "restify": "^5.2.0",
     "restify-cors-middleware": "^1.1.0",
     "typescript": "^2.5.2"
