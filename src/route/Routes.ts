@@ -1,10 +1,12 @@
 import * as restify from 'restify';
 import RepositoryController from '../controller/RepositoryController';
+import GithubRepositoryService from '../service/http/GithubRepositoryService';
+
+const repositoryController = new RepositoryController(new GithubRepositoryService());
 
 module.exports.routes = {
 
   initialize: (api:restify.Server):void => {
-    const repositoryController:RepositoryController = new RepositoryController();
 
     // handle rest resources
     api.get('/repositories', repositoryController.search);

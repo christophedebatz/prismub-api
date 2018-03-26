@@ -3,11 +3,12 @@ import { SearchReposParams, AnyResponse } from '@octokit/rest';
 import RepositoryDto from './dto/RepositoryDto';
 import RepositoryService from './RepositoryService';
 import repositoryMapper from './mapper/repositoryMapper';
-import Paging from './Paging';
 
 export default class GithubRepositoryService implements RepositoryService {
 
-  findRepository(search:string, paging:Paging):Promise<RepositoryDto[]> {
+  private static ITEMS_PER_PAGE:number = 10;
+
+  public findRepository(search:string, page:number):Promise<RepositoryDto[]> {
     if (!search) {
       return Promise.resolve([]);
     }
@@ -15,8 +16,8 @@ export default class GithubRepositoryService implements RepositoryService {
       q: search.trim(),
       sort: 'stars',
       order: 'desc',
-      per_page: paging.limit,
-      page: Math.ceil(paging.offset / paging.limit)
+      per_page: GithubRepositoryService.ITEMS_PER_PAGE,
+      page
     };
     return new Github().search.repos(request)
       .then(res => res.data.items ? repositoryMapper.mapThem(res.data.items) : []);
