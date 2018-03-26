@@ -1,8 +1,13 @@
 import RepositoryDto from './dto/RepositoryDto';
-import Paging from './Paging';
+import CommitsRequestDto from './dto/CommitsRequestDto';
+import Commit from '../../domain/interface/Commit';
 
 export default interface RepositoryService {
 
-  findRepository(search:string, paging:Paging):Promise<RepositoryDto[]>;
+  search(search:string, page:number):Promise<RepositoryDto[]>;
+
+  getRepositoryBranches(repository:string, owner:string):Promise<string[]>;
+
+  getLastCommits(requestDto:CommitsRequestDto):Promise<Commit[]>
 
 }

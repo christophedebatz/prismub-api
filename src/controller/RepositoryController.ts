@@ -14,6 +14,7 @@ export default class RepositoryController {
     this.repositoryService = repositoryService;
     this.search = this.search.bind(this);
   }
+
   /*
    * Proceed to the user login.
    *
@@ -30,7 +31,24 @@ export default class RepositoryController {
     if (req.query.page && req.query.page > 0) { // pagination is 1-based
       page = parseInt(req.query.page, 10);
     }
-    this.repositoryService.findRepository(req.query.search, page)
+    this.repositoryService.search(req.query.search, page)
       .then(repositories => res.json(repositories));
   }
+
+  /*
+   * Proceed to the user login.
+   *
+   * @param req  the request.
+   * @param res  the response.
+   * @param next the next filter.
+   * @returns the repositorie's branches.
+   */
+  public getBranches(req: Request, res: Response, next: Next):void {
+    if (!req.body || !req.body.repository || !req.body.owner) {
+      return res.json(400, ApiException.fromServiceCode(ServiceErrorCodes.EMPTY_INVALID_INPUT));
+    }
+    this.repositoryService.getRepositoryBranches(req.body.repository, req.body.owner)
+      .then(branches => res.json(branches));
+  }
+
 }

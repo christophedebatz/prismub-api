@@ -1,9 +1,9 @@
 import { Schema } from 'mongoose';
 
 export const CommitSchema: Schema = new Schema({
-  description: String,
-  repository: String,
-  commiter: String,
-  email: String,
+  message: String,
+  userName: String,
+  userEmail: String,
+  repositoryId: Number,
   createdAt: Date
 });

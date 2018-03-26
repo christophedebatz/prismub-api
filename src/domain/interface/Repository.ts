@@ -1,4 +1,4 @@
-export interface Repository {
+export default interface Repository {
   name: string;
   owner: string;
   description?: string;
