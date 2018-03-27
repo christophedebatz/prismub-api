@@ -1,6 +1,6 @@
 import * as Github from '@octokit/rest';
 import { SearchReposParams, AnyResponse } from '@octokit/rest';
-import ServiceException, { ServiceErrorCodes } from '../exception/ServiceException';
+import ServiceException, { ServiceErrorCodes } from './exception/ServiceException';
 import RepositoryDto from './dto/RepositoryDto';
 import CommitDto from './dto/CommitDto';
 import CommitsRequestDto from './dto/CommitsRequestDto';
@@ -56,7 +56,7 @@ export default class GithubRepositoryService implements RepositoryService {
     const request:Github.ReposGetCommitsParams = {
       owner: requestDto.owner,
       repo: requestDto.repository,
-      page: 0,
+      page: requestDto.page,
       per_page: GithubRepositoryService.COMMITS_PER_PAGE
     };
     return this.githubService.repos.getCommits(request)
