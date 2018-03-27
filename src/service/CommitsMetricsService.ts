@@ -5,6 +5,8 @@ import ParticipationDto from './dto/ParticipationDto';
 
 export default class CommitsMetricsService {
 
+  private static readonly UNKNOW_USER_KEY = '@Unknow/Unknow';
+
   public resolveParticipation(commits: CommitDto[]):ParticipationDto {
     const commitsPerUser:Map<string, CommitDto[]> = this.getCommitsPerUser(commits);
     return this.getUsersParticipation(commits, commitsPerUser);
@@ -19,7 +21,12 @@ export default class CommitsMetricsService {
   private getCommitsPerUser(commits: CommitDto[]):Map<string, CommitDto[]> {
     const usersCommits:Map<string, CommitDto[]> = new Map();
     for (let commit of commits) {
-      const userHash:string = `${commit.author.email}/${commit.author.email}`;
+      if (!commit.author) {
+        commit.author = new AuthorDto();
+        commit.author.email = 'anonym@dev.net';
+        commit.author.name = 'Anonym developer';
+      }
+      const userHash:string = `${commit.author.name}/${commit.author.email}`;
       const userCommits:CommitDto[] = usersCommits.get(userHash);
       if (!userCommits) {
         usersCommits.set(userHash, [commit]);

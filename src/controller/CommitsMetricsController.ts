@@ -45,5 +45,4 @@ export default class CommitsMetricsController {
       .then(commits => res.json(this.commitsMetricsService.resolveParticipation(commits)))
       .catch(err => res.json(err.status, new ApiException(err.message)));
   }
-
 }
