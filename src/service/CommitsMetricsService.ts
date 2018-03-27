@@ -4,7 +4,7 @@ import UserParticipationDto from './dto/UserParticipationDto';
 
 export default class CommitsMetricsService {
 
-  resolveUsersParticipations(commits: CommitDto[]):UserParticipationDto[] {
+  public resolveUsersParticipations(commits: CommitDto[]):UserParticipationDto[] {
     const commitsPerUser:Map<string, CommitDto[]> = this.getCommitsPerUser(commits);
     return this.getUsersParticipation(commits, commitsPerUser);
   }
@@ -15,15 +15,16 @@ export default class CommitsMetricsService {
    * @param commits the list of commits.
    * @returns the list of commits by user.
    */
-  getCommitsPerUser(commits: CommitDto[]):Map<string, CommitDto[]> {
+  private getCommitsPerUser(commits: CommitDto[]):Map<string, CommitDto[]> {
     const usersCommits:Map<string, CommitDto[]> = new Map();
-    for (let i = 0; i < commits.length; i++) {
-      const userHash = commits[i].author.email + '-' + commits[i].author.email;
-      const userCommitsValue = usersCommits.get(userHash);
-      if (!userCommitsValue) {
-        usersCommits.set(userHash, []);
+    for (let commit of commits) {
+      const userHash:string = `${commit.author.email}/${commit.author.email}`;
+      const userCommits:CommitDto[] = usersCommits.get(userHash);
+      if (!userCommits) {
+        usersCommits.set(userHash, [commit]);
+      } else {
+        userCommits.push(commit);
       }
-      userCommitsValue.push(commits[i]);
     }
     return usersCommits;
   }
@@ -35,14 +36,17 @@ export default class CommitsMetricsService {
    * @param commitsPerUser the list of commits for each user.
    * @returns the list of participation for each user who made a commit.
    */
-  getUsersParticipation(commits: CommitDto[], commitsPerUser:Map<string, CommitDto[]>):UserParticipationDto[] {
+  private getUsersParticipation(commits: CommitDto[], commitsPerUser:Map<string, CommitDto[]>):UserParticipationDto[] {
     const participations:UserParticipationDto[] = [];
     const commitsCount:number = commits.length;
     for (let [userHash, userCommits] of commitsPerUser) {
-      if (userCommits && userCommits.length > 0) {
-        const participation:UserParticipationDto = new UserParticipationDto();
+      const userCommitsCount:number = userCommits.length;
+      if (userCommits && userCommitsCount > 0) {
+        const participation = new UserParticipationDto();
         participation.user = userCommits[0].author;
-        participation.ratio = Math.round(userCommits.length / commitsCount * 100);
+        participation.totalCommitsCount = commitsCount;
+        participation.userCommitsCount = userCommitsCount;
+        participation.ratio = Math.round(userCommitsCount / commitsCount * 100);
         participations.push(participation);
       }
     }

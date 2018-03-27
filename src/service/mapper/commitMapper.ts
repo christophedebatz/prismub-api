@@ -11,12 +11,12 @@ const commitMapper = {
     const commit:CommitDto = new CommitDto();
     if (item.sha) commit.sha = item.sha;
     if (item.author) {
-      const author = item.author;
+      const author = item.commit.author;
+      commit.author = new AuthorDto();
       if (author.name) commit.author.name = author.name;
       if (author.email) commit.author.email = author.email;
-      if (author.date) commit.author.date = author.date;
     }
-    if (item.message) commit.message = item.message;
+    if (item.commit.message) commit.message = item.commit.message;
     if (item.url) commit.url = item.url;
     return commit;
   }

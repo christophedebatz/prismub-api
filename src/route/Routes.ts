@@ -13,9 +13,9 @@ module.exports.routes = {
     // handle rest resources
     // repository endpoints
     api.get('/repositories', repositoryController.search);
-    api.get('/repositories/{repoName}/{userName}/commits', repositoryController.getLastCommits);
+    api.get('/users/:userName/repositories/:repoName/commits', repositoryController.getLastCommits);
 
     // metrics endpoints
-    api.get('/metrics/{repoName}/{userName}/metrics', metricsController.getCommitsMetrics);
+    api.get('/users/:userName/repositories/:repoName/metrics', metricsController.getCommitsMetrics);
   }
 }

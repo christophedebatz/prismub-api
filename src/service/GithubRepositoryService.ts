@@ -47,7 +47,7 @@ export default class GithubRepositoryService implements RepositoryService {
    * @returns the last commits ordered by creation date.
    */
   public getLastCommits(requestDto:CommitsRequestDto):Promise<CommitDto[]> {
-    if (!requestDto || !requestDto.owner || !requestDto.repository || !requestDto.ref) {
+    if (!requestDto || !requestDto.owner || !requestDto.repository || isNaN(requestDto.page)) {
       throw ServiceException.create(
         ServiceErrorCodes.EMPTY_INVALID_INPUT,
         'invalid.repository.request'
@@ -60,6 +60,9 @@ export default class GithubRepositoryService implements RepositoryService {
       per_page: GithubRepositoryService.COMMITS_PER_PAGE
     };
     return this.githubService.repos.getCommits(request)
-      .then(commits => commits.data.items ? commitMapper.mapThem(commits.data.items) : []);
+    // .then(c => { console.log(JSON.stringify(c)); return c; })
+      .then(commits => commits.data ? commitMapper.mapThem(commits.data) : []);
+      // .then(c => { console.log(JSON.stringify(c)); return c; })
+
   }
 }
