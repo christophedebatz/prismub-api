@@ -4,6 +4,7 @@ import GithubRepositoryService from '../service/http/GithubRepositoryService';
 import RepositoryService from '../service/http/RepositoryService';
 import ApiException from './exception/ApiException';
 import RepositoryDto from '../service/http/dto/RepositoryDto';
+import CommitsRequestDto from '../service/http/dto/CommitsRequestDto';
 import { ServiceErrorCodes } from '../service/exception/ServiceException';
 
 export default class RepositoryController {
@@ -16,12 +17,12 @@ export default class RepositoryController {
   }
 
   /*
-   * Proceed to the user login.
+   * Returns a list of repositories.
    *
    * @param req  the request.
    * @param res  the response.
    * @param next the next filter.
-   * @returns the repositories.
+   * @returns the found repositories.
    */
   public search(req: Request, res: Response, next: Next):void {
     if (!req.query.search || req.query.search.length < 3) {
@@ -36,19 +37,23 @@ export default class RepositoryController {
   }
 
   /*
-   * Proceed to the user login.
+   * Returns the last commits of a repository.
    *
    * @param req  the request.
    * @param res  the response.
    * @param next the next filter.
-   * @returns the repositorie's branches.
+   * @returns the last commits ordered by creation date.
    */
-  public getBranches(req: Request, res: Response, next: Next):void {
+  public getLastCommits(req: Request, res: Response, next: Next):void {
     if (!req.body || !req.body.repository || !req.body.owner) {
       return res.json(400, ApiException.fromServiceCode(ServiceErrorCodes.EMPTY_INVALID_INPUT));
     }
-    this.repositoryService.getRepositoryBranches(req.body.repository, req.body.owner)
-      .then(branches => res.json(branches));
+    const request:CommitsRequestDto = {
+      repository: req.body.repository,
+      owner: req.body.owner
+    }
+    this.repositoryService.getLastCommits(request)
+      .then(commits => res.json(commits));
   }
 
 }

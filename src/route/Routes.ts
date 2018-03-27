@@ -10,5 +10,6 @@ module.exports.routes = {
 
     // handle rest resources
     api.get('/repositories', repositoryController.search);
+    api.get('/repositories/{name}/{owner}/commits', repositoryController.getLastCommits);
   }
 }
