@@ -7,7 +7,7 @@ import ApiException from './exception/ApiException';
 import RepositoryDto from '../service/dto/RepositoryDto';
 import CommitDto from '../service/dto/CommitDto';
 import CommitsRequestDto from '../service/dto/CommitsRequestDto';
-import { ServiceErrorCodes } from '../service/exception/ServiceException';
+import ServiceException, { ServiceErrorCodes } from '../service/exception/ServiceException';
 
 export default class CommitsMetricsController {
 
@@ -42,7 +42,8 @@ export default class CommitsMetricsController {
       page: page
     }
     this.repositoryService.getLastCommits(request)
-      .then(commits => res.json(this.commitsMetricsService.resolveUsersParticipations(commits)));
+      .then(commits => res.json(this.commitsMetricsService.resolveParticipation(commits)))
+      .catch(err => res.json(err.status, new ApiException(err.message)));
   }
 
 }

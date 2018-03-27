@@ -5,6 +5,8 @@ export const ServiceErrorCodes = {
   EMPTY_INVALID_INPUT: { name: 'empty.or.invalid.input', code: 400 },
 
   UNEXPECTED_ERROR: { name: 'unexpected.error', code: 500 },
+
+  ENTITY_NOT_FOUND: { name: 'entity.not.found', code: 404 }
 };
 
 export default class ServiceException {
@@ -51,10 +53,8 @@ export default class ServiceException {
     this.mCause = cause;
   }
 
-  public static create(codeObject:any, cause:string|undefined = undefined):object {
-    const se:ServiceException = new ServiceException(codeObject);
-    se.cause = cause;
-    return se;
+  public static create(codeObject:any, cause:string|undefined = undefined):ServiceException {
+    return new ServiceException(codeObject, cause);
   }
 
 }

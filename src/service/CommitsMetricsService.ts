@@ -1,10 +1,11 @@
 import CommitDto from './dto/CommitDto';
 import AuthorDto from './dto/AuthorDto';
 import UserParticipationDto from './dto/UserParticipationDto';
+import ParticipationDto from './dto/ParticipationDto';
 
 export default class CommitsMetricsService {
 
-  public resolveUsersParticipations(commits: CommitDto[]):UserParticipationDto[] {
+  public resolveParticipation(commits: CommitDto[]):ParticipationDto {
     const commitsPerUser:Map<string, CommitDto[]> = this.getCommitsPerUser(commits);
     return this.getUsersParticipation(commits, commitsPerUser);
   }
@@ -36,20 +37,19 @@ export default class CommitsMetricsService {
    * @param commitsPerUser the list of commits for each user.
    * @returns the list of participation for each user who made a commit.
    */
-  private getUsersParticipation(commits: CommitDto[], commitsPerUser:Map<string, CommitDto[]>):UserParticipationDto[] {
-    const participations:UserParticipationDto[] = [];
+  private getUsersParticipation(commits: CommitDto[], commitsPerUser:Map<string, CommitDto[]>):ParticipationDto {
     const commitsCount:number = commits.length;
+    const participationDto:ParticipationDto = new ParticipationDto(commitsCount);
     for (let [userHash, userCommits] of commitsPerUser) {
       const userCommitsCount:number = userCommits.length;
       if (userCommits && userCommitsCount > 0) {
         const participation = new UserParticipationDto();
         participation.user = userCommits[0].author;
-        participation.totalCommitsCount = commitsCount;
-        participation.userCommitsCount = userCommitsCount;
-        participation.ratio = Math.round(userCommitsCount / commitsCount * 100);
-        participations.push(participation);
+        participation.commitsCount = userCommitsCount;
+        participation.ratio = Math.round((userCommitsCount / commitsCount * 100) * 100) / 100;
+        participationDto.details.push(participation);
       }
     }
-    return participations;
+    return participationDto;
   }
 }

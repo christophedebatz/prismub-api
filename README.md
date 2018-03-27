@@ -1,5 +1,3 @@
-
-
 # Primub REST API v1.0
 Typescripted API for
 More information about how using TypeScript here: https://www.typescriptlang.org/docs/handbook
@@ -42,35 +40,35 @@ Example for "Boot" like "Bootstrap"...
 
 Example for the "mistergift-front" repository for user "christophedebatz".
 ```
-[
-    {
-        "totalCommitsCount": 79,
-        "userCommitsCount": 77,
-        "ratio": 97,
-        "user": {
-            "name": "joulse",
-            "email": "contact@julienducrot.com"
+{
+    "commitsCount": 79,
+    "details": [
+        {
+            "commitsCount": 77,
+            "ratio": 97.47,
+            "user": {
+                "name": "joulse",
+                "email": "contact@julienducrot.com"
+            }
+        },
+        {
+            "commitsCount": 1,
+            "ratio": 1.27,
+            "user": {
+                "name": "Christophe de Batz",
+                "email": "christophe.db@gmail.com"
+            }
+        },
+        {
+            "commitsCount": 1,
+            "ratio": 1.27,
+            "user": {
+                "name": "polem",
+                "email": "paulemile.miny@gmail.com"
+            }
         }
-    },
-    {
-        "totalCommitsCount": 79,
-        "userCommitsCount": 1,
-        "ratio": 1,
-        "user": {
-            "name": "Christophe de Batz",
-            "email": "christophe.db@gmail.com"
-        }
-    },
-    {
-        "totalCommitsCount": 79,
-        "userCommitsCount": 1,
-        "ratio": 1,
-        "user": {
-            "name": "polem",
-            "email": "paulemile.miny@gmail.com"
-        }
-    }
-]
+    ]
+}
 ```
 
 ## Retrieve the list of commits for a repository

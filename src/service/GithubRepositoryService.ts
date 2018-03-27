@@ -60,9 +60,7 @@ export default class GithubRepositoryService implements RepositoryService {
       per_page: GithubRepositoryService.COMMITS_PER_PAGE
     };
     return this.githubService.repos.getCommits(request)
-    // .then(c => { console.log(JSON.stringify(c)); return c; })
-      .then(commits => commits.data ? commitMapper.mapThem(commits.data) : []);
-      // .then(c => { console.log(JSON.stringify(c)); return c; })
-
+      .then(commits => commits.data ? commitMapper.mapThem(commits.data) : [])
+      .catch(err => { throw ServiceException.create(ServiceErrorCodes.ENTITY_NOT_FOUND); })
   }
 }
