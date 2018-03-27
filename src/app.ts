@@ -2,15 +2,10 @@ import * as fs from 'fs';
 import 'reflect-metadata';
 import * as restify from 'restify';
 import * as Cors from 'restify-cors-middleware';
-import * as moment from 'moment-timezone';
 import config from './config/config';
 import { logger } from './service/logger';
-import Database from './service/Database';
 
 export const api = restify.createServer({ name: config.name});
-
-moment.tz.setDefault("America/Paris");
-Database.getInstance(); // initialize database instance
 
 // obvioulsy just for demo, theorically origins must be the IP/domain
 // of the front react server

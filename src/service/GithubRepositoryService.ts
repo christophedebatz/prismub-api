@@ -6,7 +6,6 @@ import CommitDto from './dto/CommitDto';
 import CommitsRequestDto from './dto/CommitsRequestDto';
 import RepositoryService from './RepositoryService';
 import repositoryMapper from './mapper/repositoryMapper';
-import branchMapper from './mapper/branchMapper';
 import commitMapper from './mapper/commitMapper';
 
 export default class GithubRepositoryService implements RepositoryService {
