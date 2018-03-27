@@ -2,12 +2,51 @@ import CommitDto from './dto/CommitDto';
 import AuthorDto from './dto/AuthorDto';
 import UserParticipationDto from './dto/UserParticipationDto';
 import ParticipationDto from './dto/ParticipationDto';
+import CommitsRequestDto from './dto/CommitsRequestDto';
+import { commitsMetricsQueryDao } from '../model/dao/commitsMetricsQueryDao';
+import CommitsMetricsQuery from '../model/entity/CommitsMetricsQuery';
 
 export default class CommitsMetricsService {
 
-  public resolveParticipation(commits: CommitDto[]):ParticipationDto {
+  /*
+   * Returns the participation after saving the metrics query.
+   *
+   * @param commits the list of commits.
+   * @param request the request for retrieving commits.
+   * @returns the participation object.
+   */
+  public retrieveMetricsAndSaveQuery(commits: CommitDto[], request:CommitsRequestDto):Promise<ParticipationDto> {
+    const participation:ParticipationDto = this.resolveParticipation(commits);
+    return this.saveMetricsQuery(request)
+      .then(queryId => {
+        participation.id = queryId;
+        return participation;
+      });
+  }
+
+  /*
+   * Returns the participation.
+   *
+   * @param commits the list of commits.
+   * @returns the participation object.
+   */
+  private resolveParticipation(commits: CommitDto[]):ParticipationDto {
     const commitsPerUser:Map<string, CommitDto[]> = this.getCommitsPerUser(commits);
     return this.getUsersParticipation(commits, commitsPerUser);
+  }
+
+  /*
+   * Saves and returns the metrics query.
+   *
+   * @param requestDto the metrics query request dto.
+   * @returns the id of the created metrics query.
+   */
+  public saveMetricsQuery(requestDto:CommitsRequestDto): Promise<number> {
+    const query:CommitsMetricsQuery = new CommitsMetricsQuery();
+    query.owner = requestDto.owner;
+    query.repository = requestDto.repository;
+    return commitsMetricsQueryDao.saveQuery(query)
+      .then(query => query.id);
   }
 
   /*

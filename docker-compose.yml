@@ -1,7 +1,15 @@
 version: '2'
 
 services:
-  mongodb:
-    image: 'mvertes/alpine-mongo'
+  mariadb:
+    image: 'bitnami/mariadb:latest'
     ports:
-      - '27017:27017'
+      - '3307:3306'
+    volumes:
+      - 'mariadb_data:/bitnami'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      #- MARIADB_ROOT_PASSWORD=H4DdGD6dqb6BBDNSsvqsdjqd,m
+volumes:
+  mariadb_data:
+    driver: local

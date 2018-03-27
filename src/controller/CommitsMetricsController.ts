@@ -6,17 +6,17 @@ import CommitsMetricsService from '../service/CommitsMetricsService';
 import ApiException from './exception/ApiException';
 import RepositoryDto from '../service/dto/RepositoryDto';
 import CommitDto from '../service/dto/CommitDto';
+import ParticipationDto from '../service/dto/ParticipationDto';
 import CommitsRequestDto from '../service/dto/CommitsRequestDto';
 import ServiceException, { ServiceErrorCodes } from '../service/exception/ServiceException';
 
 export default class CommitsMetricsController {
 
   private repositoryService:RepositoryService;
-  private commitsMetricsService:CommitsMetricsService;
+  private commitsMetricsService = new CommitsMetricsService();
 
   constructor(repositoryService: RepositoryService) {
     this.repositoryService = repositoryService;
-    this.commitsMetricsService = new CommitsMetricsService();
     this.getCommitsMetrics = this.getCommitsMetrics.bind(this);
   }
 
@@ -42,8 +42,8 @@ export default class CommitsMetricsController {
       page: page
     }
     this.repositoryService.getLastCommits(request)
-      .then(commits => res.json(this.commitsMetricsService.resolveParticipation(commits)))
+      .then(commits => this.commitsMetricsService.retrieveMetricsAndSaveQuery(commits, request))
+      .then(participation => res.json(participation))
       .catch(err => res.json(err.status, new ApiException(err.message)));
   }
-
 }

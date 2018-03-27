@@ -6,6 +6,7 @@ export default class ParticipationDto {
     this.commitsCount = commitsCount;
   }
 
+  id?: number;
   commitsCount?: number = 0;
   details:UserParticipationDto[] = [];
 }
