@@ -1,5 +1,5 @@
 
-# Primub REST API v1.0
+# Prismub REST API v1.0
 Typescripted API for
 More information about how using TypeScript here: https://www.typescriptlang.org/docs/handbook
 
