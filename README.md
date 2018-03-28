@@ -1,7 +1,8 @@
-
 # Prismub REST API v1.0
 Typescripted API for
 More information about how using TypeScript here: https://www.typescriptlang.org/docs/handbook
+
+***
 
 **Notable packages (on master branch):**
 
@@ -12,6 +13,7 @@ More information about how using TypeScript here: https://www.typescriptlang.org
 **Developer remarks:**
 * Github has released a 4th version of its API which uses Graphql to query the back and to fetch results. I've take a look on Apollo project ( https://github.com/apollographql/apollo-client ) which allow developers querying with Graphql but unfortunatly I was missing time to complete the project. To finish it, it was more reasonable
 to search for a SDK. That's how I proceeded and I finally used octokit/github which had a great and a huge community on Github, as a Github public SDK.
+* I also created another branch on which I have implemented (at about 90% back-side but not started yet on the front) a solution to keep all repository that have been selected by users. The goal is multiple: track user and gain data about its preferences (famous repos vs. unknown according to the stars count of the repos or even if the user prefers the Java as the .NET etc.). A second idea is to keep the ID of a request and it's allow keeping the url of the search as a UUID key whereas the current B64 hash of the repo name and owner...
 
 
 ## Searching a public repository
