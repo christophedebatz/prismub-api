@@ -4,6 +4,7 @@ import ServiceException, { ServiceErrorCodes } from './exception/ServiceExceptio
 import RepositoryDto from './dto/RepositoryDto';
 import CommitDto from './dto/CommitDto';
 import CommitsRequestDto from './dto/CommitsRequestDto';
+import Config from '../config/config';
 import RepositoryService from './RepositoryService';
 import repositoryMapper from './mapper/repositoryMapper';
 import commitMapper from './mapper/commitMapper';
@@ -12,7 +13,7 @@ export default class GithubRepositoryService implements RepositoryService {
 
   private static readonly REPOSITORIES_PER_PAGE:number = 10;
   private static readonly COMMITS_PER_PAGE:number = 100;
-  private githubService:Github = new Github();
+  private githubService:Github = GithubRepositoryService.createGithubApi();
 
   /*
    * Returns a list of repositories.
@@ -67,5 +68,15 @@ export default class GithubRepositoryService implements RepositoryService {
         }
         throw ServiceException.create(code);
       })
+  }
+
+  private static createGithubApi() {
+    if (Config.proxy) {
+      const agent = require('http-proxy-agent');
+      return new Github({
+        agent: new agent(Config.proxy)
+      });
+    }
+    return new Github();
   }
 }

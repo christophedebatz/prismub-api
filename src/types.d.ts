@@ -3,6 +3,7 @@ export interface Config {
   port: number;
   env: string;
   version: string;
+  proxy?: string;
   database: DatabaseConfig;
 }
 
