@@ -3,6 +3,17 @@
 Typescripted API for
 More information about how using TypeScript here: https://www.typescriptlang.org/docs/handbook
 
+**Notable packages (on master branch):**
+
+* Typescript
+* Restify
+* octokit/rest (for Github SDK v3)
+
+**Developer remarks:**
+* Github has released a 4th version of its API which uses Graphql to query the back and to fetch results. I've take a look on Apollo project ( https://github.com/apollographql/apollo-client ) which allow developers querying with Graphql but unfortunatly I was missing time to complete the project. To finish it, it was more reasonable
+to search for a SDK. That's how I proceeded and I finally used octokit/github which had a great and a huge community on Github, as a Github public SDK.
+
+
 ## Searching a public repository
 **GET /repositories?search=*{search-input}*[&page=*{page-no}*]**
 
