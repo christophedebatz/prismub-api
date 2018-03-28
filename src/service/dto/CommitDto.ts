@@ -5,4 +5,5 @@ export default class CommitDto {
   author: AuthorDto;
   message: string;
   url: string;
+  creationDate: Date;
 };

@@ -46,7 +46,7 @@ export default class RepositoryController {
    * @returns the last commits ordered by creation date.
    */
   public getLastCommits(req: Request, res: Response, next: Next):void {
-    if (!req.body || !req.params.repoName || !req.params.userName) {
+    if (!req.params.repoName || !req.params.userName) {
       return res.json(400, ApiException.fromServiceCode(ServiceErrorCodes.EMPTY_INVALID_INPUT));
     }
     let page:number = 1;

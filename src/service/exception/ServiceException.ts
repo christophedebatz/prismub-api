@@ -1,6 +1,6 @@
 export const ServiceErrorCodes = {
 
-  TOO_MANY_ITEMS: { name: 'too.many.items', code: 400 },
+  TOO_MANY_REQUESTS: { name: 'too.many.requests', code: 429 },
 
   EMPTY_INVALID_INPUT: { name: 'empty.or.invalid.input', code: 400 },
 

@@ -46,7 +46,7 @@ export default class GithubRepositoryService implements RepositoryService {
    * @returns the last commits ordered by creation date.
    */
   public getLastCommits(requestDto:CommitsRequestDto):Promise<CommitDto[]> {
-    if (!requestDto || !requestDto.owner || !requestDto.repository || isNaN(requestDto.page)) {
+    if (!requestDto || !requestDto.owner || !requestDto.repository) {
       throw ServiceException.create(
         ServiceErrorCodes.EMPTY_INVALID_INPUT,
         'invalid.repository.request'
@@ -60,6 +60,12 @@ export default class GithubRepositoryService implements RepositoryService {
     };
     return this.githubService.repos.getCommits(request)
       .then(commits => commits.data ? commitMapper.mapThem(commits.data) : [])
-      .catch(err => { throw ServiceException.create(ServiceErrorCodes.ENTITY_NOT_FOUND); })
+      .catch(err => {
+        let code = ServiceErrorCodes.ENTITY_NOT_FOUND;
+        if (err.message.includes('rate limit exceeded')) {
+          code = ServiceErrorCodes.TOO_MANY_REQUESTS;
+        }
+        throw ServiceException.create(code);
+      })
   }
 }
