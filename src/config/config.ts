@@ -8,7 +8,6 @@ let config: Config = {
   version: '1.0.0',
   port: 3001,
   env: env === 'prod' ? 'prod' : 'dev',
-  proxy: 'http://192.168.1.75:3128',
   database: {
     host: 'ds221339.mlab.com',
     port: 21339,
