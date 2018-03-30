@@ -21,6 +21,11 @@ const commitMapper = {
         commit.author.pictureUrl = item.author.avatar_url;
         commit.author.profileUrl = item.author.url;
       }
+    } else {
+      const author = new AuthorDto();
+      autor.name = 'Unknown';
+      author.email = 'unknow';
+      author.date = new Date();
     }
     if (item.commit.message) commit.message = item.commit.message;
     if (item.url) commit.url = item.url;
