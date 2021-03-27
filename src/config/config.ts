@@ -12,7 +12,7 @@ let config: Config = {
     host: 'ds221339.mlab.com',
     port: 21339,
     username: 'prismus',
-    password: 'MKm4ZRYjCr9w4tDv5V6WndYUwMJ',
+    password: '',
     database: 'prismub'
   }
 };
